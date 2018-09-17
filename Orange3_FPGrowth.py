@@ -1,10 +1,9 @@
 import orangecontrib.associate.fpgrowth as oaf
 import pandas as pd
 import json
-from apriori import apriori
 
-by = "Order Nbr"
-# by = "Consumer"
+# by = "Order Nbr"
+by = "Consumer"
 
 ds_small = ds.groupby([by, "Sku Cd"])["Styl Nm"].count()
 ds_small = ds_small.reset_index()
@@ -25,7 +24,7 @@ for i in ds_small[by].unique():
 
 # Save the list to file
 j = json.dumps(T)
-with open("data.txt", "w") as file:
+with open("data by consumer.txt", "w") as file:
     file.write(j)
 # Read file to ilst
 with open("data.txt", "r") as file:

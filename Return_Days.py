@@ -1,17 +1,21 @@
 import pandas as pd
 
-path = "C:\\Users\\bwan19\\Boone_Document\# Nwork\$Projects\Digital G2N Analysis\\05. Analysis\D2N LAST 5 SEASON DATA\Original\{}.csv"
-filename = "SP18_new"
+path = "C:\\Users\\bwan19\\Boone_Document\# Nwork\$Projects\Digital G2N Analysis\\05. Analysis\Raw Data\Original\{}.csv"
+filename = "618"
 file = path.format(filename)
 ds = pd.read_csv(file)
-saving_file = False
-saving_file = (input("Saving file?") == "yes")
+saving_file = True
 
 # Preconditioning the dataset
 ds = ds[ds["Store Nm"] == "NIKE.COM"]
 ds["Order Dt"] = pd.to_datetime(ds["Order Dt"])
 
 # ---Brief------------------------------------------------------------
+# Period
+start_date = ds["Order Dt"].min()
+end_date = ds["Order Dt"].max()
+print("Time Period of the Dataset:\n{}\n{}\n\n".format(start_date, end_date))
+
 # Total Order Number
 ds_order = ds.groupby(ds["Order Nbr"])
 total_order_number = ds_order.count().count()[0]
@@ -63,10 +67,10 @@ ds_buy = ds_buy.reset_index()
 
 ds_with_rtn_days = ds.merge(ds_buy, how="left", on=["Order Nbr", "Sku Cd"])
 
-# Save to File
-if saving_file:
-    file = path.format(filename + "_withoutReturnDays")
-    ds.to_csv(file)
+# # Save to File
+# if saving_file:
+#     file = path.format(filename + "_withoutReturnDays")
+#     ds.to_csv(file)
 
 # Save to File
 if saving_file:
