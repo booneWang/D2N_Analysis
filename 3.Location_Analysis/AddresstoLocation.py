@@ -36,28 +36,33 @@ def GetCoordinateOnGaodei(address):
             return 0, 0
 
 
-ds = pd.read_csv("CONSADDR.csv", encoding="utf8")
+ds = pd.read_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList.xlsx",
+                   encoding="utf8")
 ds["lat"] = 0
 ds['lng'] = 0
 
 # 100 sample for test purpose
-ds = ds.head(3000)
+# ds = ds.head(5000)
 # ds.reset_index(inplace=True)
 # del ds["index"]
 
-for indexs in ds.index:
-    address = ds.loc[indexs]["ADDR"]
+# How many Cycle need to run
+ds = ds.loc[5000:8000]
+
+for i in ds.index:
+    address = ds.loc[i]["Addr"]
+    address = "上海市" + address
 
     lat, lng = GetCoordinateOnGaodei(address)
 
     # 维度
-    ds.iloc[indexs, 4] = lat
+    ds.iloc[i - 5000, 2] = lat
     # 经度
-    ds.iloc[indexs, 5] = lng
+    ds.iloc[i - 5000, 3] = lng
 
-    if indexs % 100 == 0:
-        print(indexs)
+    if i % 100 == 0:
+        print(i)
 
-ds.to_excel("CONSADDRwithLLGaode.xls", encoding="utf8")
+ds.to_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_20181012.xlsx", encoding="utf8")
 
 print("done")

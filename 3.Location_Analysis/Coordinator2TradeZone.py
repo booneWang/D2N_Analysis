@@ -38,23 +38,24 @@ def IsPtInPoly(sPoint, pointList):
         return False
 
 
-dsPoints = pd.read_excel("/Users/wanghaoyi/Desktop/D2N/CONSADDRwithLLGaode.xls")
+# Load point Data Set
+dsPoints = pd.read_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_20181010.xlsx")
 dsPoints["TZ"] = ""
-
-# IsPtInPoly(0.5, 0.5, [[1, 1], [1, -1], [-1, -1], [-1, 1]])
 
 # --
 # Load TZ Data
 # --
-dsTZ = pd.read_excel("/Users/wanghaoyi/Desktop/D2N/TradeZone.xlsx")
+dsTZ = pd.read_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\TZ Definition\\NEW TZ polygon to point_181009.xlsx")
+dsTZ = dsTZ[dsTZ["CITY_C"] == "上海市"]
 
-TZList = dsTZ["SHAPE ID"].unique()
+TZList = dsTZ["TZ_ID_FIX"].unique()
 TZDic = {}
 
 # Create TZ Coordinate Dictionary
 for TZ in TZList:
-    # TZ = "NANJINGEAST"
-    TZtemp = dsTZ[dsTZ["SHAPE ID"] == TZ][["LATITUDE", "LONGITUDE"]]
+    # ET_Y = LONGITUDE ; ET_X = latitude
+
+    TZtemp = dsTZ[dsTZ["TZ_ID_FIX"] == TZ][["ET_Y", "ET_X"]]
 
     # Convert from Dataframe to Array
     TZArray = np.array(TZtemp).tolist()
@@ -68,7 +69,6 @@ for indexs in dsPoints.index:
 
     for key in TZDic:
         if IsPtInPoly(sPoint, TZDic[key]):
-            dsPoints.iloc[indexs, 6] = key
+            dsPoints.iloc[indexs - 5000, 4] = key
 
-
-dsPoints.to_excel("/Users/wanghaoyi/Desktop/D2N/CONSADDRwithLLGaode.xls")
+dsPoints.to_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_5K-8K_withTZ.xlsx")
