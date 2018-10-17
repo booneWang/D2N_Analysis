@@ -39,7 +39,7 @@ def IsPtInPoly(sPoint, pointList):
 
 
 # Load point Data Set
-dsPoints = pd.read_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_20181010.xlsx")
+dsPoints = pd.read_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_0-8K_withTZ.xlsx")
 dsPoints["TZ"] = ""
 
 # --
@@ -69,6 +69,6 @@ for indexs in dsPoints.index:
 
     for key in TZDic:
         if IsPtInPoly(sPoint, TZDic[key]):
-            dsPoints.iloc[indexs - 5000, 4] = key
+            dsPoints.iloc[indexs - 8000, 4] = key
 
-dsPoints.to_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_5K-8K_withTZ.xlsx")
+dsPoints.to_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_all_withTZ.xlsx")

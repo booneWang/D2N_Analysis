@@ -47,7 +47,7 @@ ds['lng'] = 0
 # del ds["index"]
 
 # How many Cycle need to run
-ds = ds.loc[5000:8000]
+ds = ds.loc[8000:]
 
 for i in ds.index:
     address = ds.loc[i]["Addr"]
@@ -56,13 +56,13 @@ for i in ds.index:
     lat, lng = GetCoordinateOnGaodei(address)
 
     # 维度
-    ds.iloc[i - 5000, 2] = lat
+    ds.iloc[i - 10109, 2] = lat
     # 经度
-    ds.iloc[i - 5000, 3] = lng
+    ds.iloc[i - 10109, 3] = lng
 
     if i % 100 == 0:
         print(i)
 
-ds.to_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_20181012.xlsx", encoding="utf8")
+ds.to_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_20181015.xlsx", encoding="utf8")
 
 print("done")
