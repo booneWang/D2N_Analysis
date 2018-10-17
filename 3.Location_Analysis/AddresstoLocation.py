@@ -1,7 +1,8 @@
 import pandas as pd
 import requests
 import json
-
+import time
+import random as rd
 
 def GetCoordinateOnBaidu(address):
     url_template = "http://api.map.baidu.com/geocoder/v2/?address={0}&output=json&ak={1}"
@@ -36,7 +37,7 @@ def GetCoordinateOnGaodei(address):
             return 0, 0
 
 
-ds = pd.read_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList.xlsx",
+ds = pd.read_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\CONSUMER_SH_FA18_201708_201808.xlsx",
                    encoding="utf8")
 ds["lat"] = 0
 ds['lng'] = 0
@@ -47,22 +48,24 @@ ds['lng'] = 0
 # del ds["index"]
 
 # How many Cycle need to run
-ds = ds.loc[8000:]
+# ds = ds.loc[:100]
 
 for i in ds.index:
-    address = ds.loc[i]["Addr"]
-    address = "上海市" + address
+    time.sleep(4)
+    address = ds.loc[i]["City"] + ds.loc[i]["Addr"]
 
-    lat, lng = GetCoordinateOnGaodei(address)
+    lat, lng = GetCoordinateOnBaidu(address)
 
     # 维度
-    ds.iloc[i - 10109, 2] = lat
+    ds.iloc[i, 4] = lat
     # 经度
-    ds.iloc[i - 10109, 3] = lng
+    ds.iloc[i, 5] = lng
 
     if i % 100 == 0:
         print(i)
 
-ds.to_excel("C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\201808ConsumerList_20181015.xlsx", encoding="utf8")
+ds.to_excel(
+    "C:\\Users\\bwan19\\Desktop\\TZ Analysis\\Consumer Info\\CONSUMER_SH_FA18_201708_201808_withCoordinator.xlsx",
+    encoding="utf8")
 
 print("done")

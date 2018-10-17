@@ -1,6 +1,7 @@
 import pandas as pd
 import chardet
 import codecs
+import numpy as np
 
 #  File Path
 filePath = "C:\\Users\\bwan19\\Desktop\\consumer_info.csv"
@@ -32,3 +33,8 @@ ds["Addr"] = ds["Addr"].apply(lambda x: x.replace("||", ""))
 
 # Export the final file
 ds.to_csv("C:\\Users\\bwan19\\Desktop\\consumer_201708_201808.csv", encoding="UTF-8")
+
+###################
+ds["City"] = ds["City"].replace(np.nan, "")
+ds["Dist"] = ds["Dist"].replace(np.nan, "")
+ds[(ds["City"].str.contains("上海")) | (ds["Addr"].str.contains("上海市"))].to_excel("C:\\Users\\bwan19\\Desktop\\CONSUMER_SH_201708_201808.xlsx")
