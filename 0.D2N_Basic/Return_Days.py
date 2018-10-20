@@ -68,6 +68,10 @@ ds_buy = ds_buy.reset_index()
 
 ds_with_rtn_days = ds.merge(ds_buy, how="left", on=["ORDER_NBR", "SKU_CD"])
 
+# Set return days as 0 for - revenue , take long time!!!
+#ds_with_rtn_days["Rtn Days"] = ds_with_rtn_days.apply(lambda x:x["Rtn Days"] if x["NET REVENUE"] > 0 else 0, axis=1)
+#
+
 # # Save to File
 # if saving_file:
 #     file = path.format(filename + "_withoutReturnDays")
